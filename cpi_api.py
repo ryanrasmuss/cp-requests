@@ -1,10 +1,9 @@
-import requests
+import requests, json
 from api_headers import api_call
 from api_headers import login
 from sys import argv
 
 api_persistence_file = 'cpi_api.txt'
-sid_persistence_file = 'sid.txt'
 
 ''' how do I want this script to work .. '''
 
@@ -26,12 +25,16 @@ def get_payload(requirements):
 
     return_me = {}
 
-    for index in range(0, len(requirements)):
-        print(requirements[index])
+    if len(requirements) % 2 != 0:
+        print("Error: expecting even number of arguments aside from command")
+        return return_me
 
+    ''' iterate over every other two '''
+    for i in range(0, len(requirements), 2):
+        return_me[requirements[i]] = requirements[i+1]
 
-
-
+    print(return_me)
+    return return_me
 
 
 '''
@@ -64,8 +67,10 @@ elif argv[1] == 'setup' and len(argv) == 6:
     username = argv[4]  
     password = argv[5]
 
-    f = open('sid.txt', "w+")
+    f = open(api_persistence_file, "w+")
     sid = login(username, password, address, port)
+    f.write(address + delim)
+    f.write(port + delim)
     f.write(sid)
     f.close()
 
@@ -74,13 +79,34 @@ elif argv[1] == 'setup' and len(argv) == 6:
 
     exit
 else:
-    with open(sid_persistence_file) as f:
-        sid = f.read()
-    print("sid: " + sid)
+    with open(api_persistence_file) as f:
+        data = f.read()
+    print("data: " + data)
+    data = data.split('\n')
+
+    address = data[0]
+    port = data[1]
+    sid = data[2]
+
+    print("Retrieved: " + address + " " + port + " " + sid)
 
     print("The Command is: " + argv[1])
     print("Crap I need to format: ")
     for req in argv[2:]:
         print(req)
+
+    print("Parsing requirements")
+    payload = get_payload(argv[2:])
+
+    if payload == {}:
+        print("Empty payload, error in parsing arguments")
+        exit
+    else:
+        print("Payload is.. ")
+        print(payload)
+
+    response = api_call(address, port, argv[1], payload, sid)
+    print(json.dumps(response))
+
 
     
