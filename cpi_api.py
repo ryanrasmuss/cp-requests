@@ -3,7 +3,7 @@ from api_headers import api_call
 from api_headers import login
 from sys import argv
 
-api_persistence_file = 'cpi_api.txt'
+session_file = 'session.txt'
 
 ''' how do I want this script to work .. '''
 
@@ -67,7 +67,7 @@ elif argv[1] == 'setup' and len(argv) == 6:
     username = argv[4]  
     password = argv[5]
 
-    f = open(api_persistence_file, "w+")
+    f = open(session_file, "w+")
     sid = login(username, password, address, port)
     f.write(address + delim)
     f.write(port + delim)
@@ -75,11 +75,11 @@ elif argv[1] == 'setup' and len(argv) == 6:
     f.close()
 
     print("Done setting up")
-    print ("Created sid.txt")
+    print ("Created session file: " + session_file)
 
     exit
 else:
-    with open(api_persistence_file) as f:
+    with open(session_file) as f:
         data = f.read()
     print("data: " + data)
     data = data.split('\n')
@@ -91,6 +91,8 @@ else:
     print("Retrieved: " + address + " " + port + " " + sid)
 
     print("The Command is: " + argv[1])
+
+
     print("Crap I need to format: ")
     for req in argv[2:]:
         print(req)
@@ -98,15 +100,5 @@ else:
     print("Parsing requirements")
     payload = get_payload(argv[2:])
 
-    if payload == {}:
-        print("Empty payload, error in parsing arguments")
-        exit
-    else:
-        print("Payload is.. ")
-        print(payload)
-
     response = api_call(address, port, argv[1], payload, sid)
     print(json.dumps(response))
-
-
-    
