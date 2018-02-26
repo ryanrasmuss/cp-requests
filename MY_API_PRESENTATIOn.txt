@@ -1,0 +1,49 @@
+# Check Point Automation & APIs
+
+### Spinning up vms faster than blink
+
+### Automate snapshot and backups
+
+### Automate management
+
+- Create policies on the fly
+- Install them
+
+### Hardcore Test
+
+- Export everything
+- Destroy the instance
+- Respin & redeploy "super fast"
+
+
+
+# Introduction
+
+- Rise of devops
+- The need for automation is strong
+- No one wants to set up 1,000 security polices with a mouse
+- Automation allows large deployments to happen super fast
+
+Introduciton:
+  - Start with hate of the mouse
+  - We all want to speed up deployment process, we can all relate
+    Hate waiting on something to deploy
+    Whenever you do something over and over robotically, it can be automated
+    So lets not waste our time doing things that can just be automated, lets use the API
+
+  GOALS
+  - Help you understand the language of dev ops and their need
+  - Understand basic core concepts behind the api
+  - Also help you be more efficient in your lab deployments
+
+
+What I want to learn:
+
+  - Create policeis on the fly
+  - Download all settings/polcies and spin them over real easy
+  - Use the config_system in the api
+  - Make machines fast! (both deployment & creating settings)
+  - Automate the creation of a Security Checkup box!
+  - What the hell is yml files
+  - How to use ansible
+  - Deploy on cloud

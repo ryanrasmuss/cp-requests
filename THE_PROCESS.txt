@@ -1,0 +1,45 @@
+# The Process of Learning Check Point's Management API
+
+### Problems
+
+- API doesn't actually start on boot... (run ``api_restart`` tp fix a ``403 Forbidden`` error response)
+- You can see this response by printing the api call response object in python
+
+### Step One, Turn on the API
+
+- Managemnet API should startup automatically
+- You can find settings at: Manage & Settings > Blades > Managemnet API > Advanced Settings
+
+I learned that there are four ways to use the API:
+
+  1. API commands in bottom left box in SmartConsole
+  2. mgmt_cli in gaia
+  3. API calls via clish
+  4. API commands over https connection using web services
+
+Number four sounds the most interesting
+
+### Step Two, API Exampels
+
+Going to run these commands in the smartconsole command box:
+
+```
+add host Manager-Ryan ip-address 192.168.26.1
+add network name Management subnet 192.168.26.0 subnet-mask 255.255.255.0
+add network name NetworkName subnet xxx.xxx.xxx.xxx mask-length 24
+add group name MyGroup members myHost
+add host name "my second host" ip-address xxx.xxx.xxx.xxx groups MyGroup
+
+
+
+
+How to add a gateway apparently: 
+``
+add simple-gateway name "gw1" color "YELLOW" ipv4-address "192.0.2.230" version "R80" one-time-password "aaaa" firewall true vpn true application-control true url-filtering true ips true anti-bot true anti-virus true threat-emulation true interfaces.1.name "eth0" interfaces.1.ipv4-address "192.0.2.230" interfaces.1.ipv4-network-mask "255.255.255.128" interfaces.1.anti-spoofing true interfaces.1.topology "EXTERNAL" interfaces.2.name "eth1" interfaces.2.ipv4-address "192.0.2.88" interfaces.2.ipv4-network-mask "255.255.255.0" interfaces.2.anti-spoofing true interfaces.2.topology "INTERNAL" --format json   "--format json" is optional. By default the output is presented in plain text.``
+
+Found out you can run commands after the first login process succeeds as: 
+``mgmt_cli login -r true``
+
+Let's try to get gateway information.
+
+But first, let's build a generic python script to do these web calls
