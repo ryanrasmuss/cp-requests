@@ -12,4 +12,5 @@ def api_call(ip_addr, port, command, json_payload, sid):
 def login(user, password, addr, port):
     payload = {'user': user, 'password': password}
     response = api_call(addr, port, 'login', payload, '')
-    return response["sid"]
+    data = response.json()
+    return data["sid"]

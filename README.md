@@ -5,6 +5,7 @@ by: **Ryan Rasmuss**
 ### Overview
 
 - cpi_api.py is the main dev script
+- remember that any changes need to be published to be able to see (including the api calls!)
 
 
 ### ToDo
