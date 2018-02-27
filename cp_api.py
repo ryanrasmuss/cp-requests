@@ -53,7 +53,10 @@ special cases:
 delim = '\n'
 
 if len(argv) == 1:
-    print("Usage: python3 cpi_api.py setup [mgmt_ip_addr] [port#] [username] [password]")
+    print("\nUsage:  python3 cp_api.py setup [mgmt_ip_addr] [port#] [username] [password]")
+    print("\tpython3 cp_api.py [command] {parameters}")
+    print("\tpython3 cp_api.py logout")
+    print("\tpython3 cp_api.py publish\n")
 
 elif argv[1] == 'setup' and len(argv) == 6:
 

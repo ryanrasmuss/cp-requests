@@ -43,3 +43,5 @@ Found out you can run commands after the first login process succeeds as:
 Let's try to get gateway information.
 
 But first, let's build a generic python script to do these web calls
+
+NOTE: For setup of ftw, need to set up expert shell !
