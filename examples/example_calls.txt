@@ -1,0 +1,1 @@
+python3 cp_api.py show-access-rulebase offset 0 limit 20 name Network details-level standard use-object-dictionary true

@@ -104,4 +104,9 @@ else:
     payload = get_payload(argv[2:])
 
     response = api_call(address, port, argv[1], payload, sid)
-    print(json.dumps(response))
+    
+    # print (type(response))
+    print ("Status code returned: " + str(response.status_code))
+    '''print(json.dumps(response))'''
+    data = response.json()
+    print (data)
