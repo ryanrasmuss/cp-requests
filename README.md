@@ -8,6 +8,13 @@ by: **Ryan Rasmuss**
 - remember that any changes need to be published to be able to see (including the api calls!)
 
 
+### Current Plan
+
+1. See if possible to run scripts on gateway side via run script api function; otherwise just run local
+2. Set new gateway and establish sic with api; interactive version where you type everything, or import from a file
+3. show gateway, save information, delete it, remake gateway, then preload saved information as json payload and recreate it
+
+
 ### ToDo
 
 - [ ] Need to parse arguments better, need to be able to navigate commands like VBoxManage

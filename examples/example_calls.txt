@@ -1,3 +1,4 @@
 python3 cp_api.py show-access-rulebase offset 0 limit 20 name Network details-level standard use-object-dictionary true
 python3 cp_api.py add-access-rule layer Network position 5 name Log Reddit action Drop service Reddit track Log
 python3 cp_api.py delete-access-rule layer Network name "Log Reddit"
+python3 cp_api.py show-simple-gateways limit 50 offset 0 details-level full
