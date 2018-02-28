@@ -10,12 +10,15 @@ by: **Ryan Rasmuss**
 
 ### ToDo
 
-1. Need to parse arguments better, need to be able to navigate commands like VBoxManage
-2. Publish
-3. Start adding other stuff
-4. Show how to get information
-5. Dump all information
-6. Add new gateway
+- [ ] Need to parse arguments better, need to be able to navigate commands like VBoxManage
+- [x] Publish
+- [ ] Start adding other commands
+- [ ] Show how to get information
+- [ ] Dump all information
+- [ ] Add new gateway
+- [ ] After posts, send message to remind to publish changes!
+- [ ] Create a transfer script, dumps all gateway data, spin up another, and drop same policies/settings into it
+- [ ] Throw in a main()
 
 
 ### Introduction
@@ -24,4 +27,18 @@ by: **Ryan Rasmuss**
 - DevOps integration, every business is going devops because of the above statement, but at enterprise scale
 - What languages does Check Point API integrate with? Go, Python, etc.. anything RESTful
 - Ansible Integration
+- General high level overview of how the api works
+- limitations
 - Examples
+
+### Presentation Overview
+
+1. Introduction, myself, and the topic
+2. Agenda: Why API (why you should use it and why a customer would use it)
+   High Level Overview of the API
+   Example of the power of the API
+3. Why API
+4. High Level Overview of the API (API Architecture?)
+5. Example of the power of the API, download entire policy and setting, then reload on to
+   another setup
+6. Conclusion

@@ -4,6 +4,8 @@ from api_headers import login
 from sys import argv
 
 session_file = 'session.txt'
+out_file = 'cp_output.txt'
+delim = '\n'
 
 ''' how do I want this script to work .. '''
 
@@ -37,20 +39,9 @@ def get_payload(requirements):
     return return_me
 
 
-'''
-special cases:
-
-"publish" {}
-"logout" {}
-"login" will use cpi_api.txt and dump a sid.txt
-
-'''
-
 ''' XXX: DISCLAIMER! This is bad implementation, do not use in production '''
 
 ''' XXX: Make setup functions, make setup, login, add-host, add-network, logout, etc '''
-
-delim = '\n'
 
 if len(argv) == 1:
     print("\nUsage:  python3 cp_api.py setup [mgmt_ip_addr] [port#] [username] [password]")
@@ -86,6 +77,7 @@ else:
         data = f.read()
     print("data: " + data)
     data = data.split('\n')
+    f.close()
 
     address = data[0]
     port = data[1]
@@ -104,9 +96,11 @@ else:
     payload = get_payload(argv[2:])
 
     response = api_call(address, port, argv[1], payload, sid)
-    
-    # print (type(response))
     print ("Status code returned: " + str(response.status_code))
     '''print(json.dumps(response))'''
     data = response.json()
-    print (data)
+    pretty_print = json.dumps(data, indent=4, sort_keys=False)
+    with open(out_file, "w") as f:
+        f.write(pretty_print)
+    f.close()
+    print("Wrote response to %s" % out_file)
