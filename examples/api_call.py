@@ -1,6 +1,7 @@
 import requests, json
 
 ''' verify=False in requests calls; L2 install cert for vms '''
+''' this is my fix of the checkpoint_example.py '''
 
 ap_addr = '192.168.26.100'
 port ='443'
