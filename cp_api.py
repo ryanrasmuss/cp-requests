@@ -23,6 +23,18 @@ delim = '\n'
         ASSUMING API CALL WOULD LOOK LIKE
     "add-network" {'name': [name], 'subnet': '[subnetid]', 'mask-length': '[cidr]'}'''
 
+def help_args(command):
+    print ("Hi, purpose is to give responses to help use this script")
+    print ("Think of VBoxManage script")
+
+    if command is "setup":
+        print ("Print setup help")
+    elif command is "add-access-rule":
+        print ("add-access-rule help")
+    else:
+        print ("Supported Commands (should be same as first script run")
+        
+
 def get_payload(requirements):
 
     return_me = {}
@@ -87,7 +99,6 @@ else:
 
     print("The Command is: " + argv[1])
 
-
     print("Crap I need to format: ")
     for req in argv[2:]:
         print(req)
@@ -96,11 +107,16 @@ else:
     payload = get_payload(argv[2:])
 
     response = api_call(address, port, argv[1], payload, sid)
-    print ("Status code returned: " + str(response.status_code))
-    '''print(json.dumps(response))'''
     data = response.json()
     pretty_print = json.dumps(data, indent=4, sort_keys=False)
+
+    print ("Status code returned: " + str(response.status_code))
+
     with open(out_file, "w") as f:
         f.write(pretty_print)
     f.close()
+
     print("Wrote response to %s" % out_file)
+
+    if str(response.status_code) == '200' and len(argv) > 3:
+        print("\n\tRemember to publish changes via: \"python3 cp_api.py publish\"\n")
