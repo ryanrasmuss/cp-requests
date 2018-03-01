@@ -1,6 +1,7 @@
 # Check Point API Scripts 
 
 by: **Ryan Rasmuss**
+using: **requests by Kenneth Reitz**, **Check Point API** 
 
 ### Overview
 
@@ -19,7 +20,7 @@ by: **Ryan Rasmuss**
 
 - [ ] Need to parse arguments better, need to be able to navigate commands like VBoxManage
 - [x] Publish
-- [ ] Start adding other commands
+- [x] Start adding other commands
 - [ ] Show how to get information
 - [ ] Dump all information
 - [ ] Add new gateway
