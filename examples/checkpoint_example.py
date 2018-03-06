@@ -3,7 +3,7 @@ import requests, json
 ap_addr = "192.168.26.100"
 port = '443'
 username = 'admin'
-pw = 'vpn123'
+pw = ''
 
 ''' This garbage is broken, can't translate int (443) to string
     ap_addr is not defined in api_call, assuming they meant ip_addr 

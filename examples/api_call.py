@@ -6,7 +6,7 @@ import requests, json
 ap_addr = '192.168.26.100'
 port ='443'
 username = 'admin'
-pw = 'vpn123'
+pw = ''
 
 
 def api_call(ip_addr, port, command, json_payload, sid):
