@@ -11,10 +11,9 @@ using: **requests by Kenneth Reitz**, **Check Point API**
 
 ### Current Plan
 
-1. See if possible to run scripts on gateway side via run script api function; otherwise just run local
-2. Set new gateway and establish sic with api; interactive version where you type everything, or import from a file
-3. show gateway, save information, delete it, remake gateway, then preload saved information as json payload and recreate it
-
+* Not sure if you can just reload the json output for say "show-access-rulebase", save it, and just use it again to set-access-rulebase"
+* Looks like im going to have to parse the output and create api calls from it and then invoke that
+* **Need to read groups in api, so Allow SSH rule has ssh, ssh version 2** Need to detect a comma and create a list
 
 ### ToDo
 

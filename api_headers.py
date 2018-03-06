@@ -7,6 +7,14 @@ def api_call(ip_addr, port, command, json_payload, sid):
     else:
         request_headers = {'Content-Type' : 'application/json', 'X-chkp-sid' : sid}
     r = requests.post(url,data=json.dumps(json_payload), headers=request_headers, verify=False)
+
+
+    test_data = json.dumps(json_payload)
+    print("Here is the json.dumps file: ")
+    print (test_data)
+    print("End of dump..")
+    
+    
     return r
 
 def login(user, password, addr, port):

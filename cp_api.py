@@ -6,23 +6,10 @@ from sys import argv
 session_file = 'session.txt'
 out_file = 'cp_output.txt'
 delim = '\n'
+comma = ','
 
-''' how do I want this script to work .. '''
 
-''' python3 cpi_api.py setup [address] [port] [username] [password] '''
-''' find a better way to use username and password '''
-''' store this info in a file cpi_api.txt '''
-
-''' python3 cpi_api.py payload 
-
-  mgmt_cli add host [name] [ip-address] [xxx.xxx.xxx.xxx]
-  api_call needs (command, payload)
-    "add-host" {'name': [name], 'ip-address': '[ip-address]' }
-
-  mgmt_cli network name [name] subnet [subnet] mask-length [24]
-        ASSUMING API CALL WOULD LOOK LIKE
-    "add-network" {'name': [name], 'subnet': '[subnetid]', 'mask-length': '[cidr]'}'''
-
+''' XXX: auto-complete help '''
 def help_args(command):
     print ("Hi, purpose is to give responses to help use this script")
     print ("Think of VBoxManage script")
@@ -33,8 +20,11 @@ def help_args(command):
         print ("add-access-rule help")
     else:
         print ("Supported Commands (should be same as first script run")
-        
 
+        
+''' XXX: parse arguments given by user '''
+''' XXX: current problem list requirements
+   service "ssh, ssh_version_2" '''
 def get_payload(requirements):
 
     return_me = {}
@@ -46,6 +36,11 @@ def get_payload(requirements):
     ''' iterate over every other two '''
     for i in range(0, len(requirements), 2):
         return_me[requirements[i]] = requirements[i+1]
+        if comma in requirements[i+1]:
+            return_me[requirements[i]] = requirements[i + 1].split(comma)
+        else:
+            return_me[requirements[i]] = requirements[i+1]
+
 
     print(return_me)
     return return_me
@@ -99,14 +94,16 @@ else:
 
     print("The Command is: " + argv[1])
 
-    print("Crap I need to format: ")
+    ''' normal call with arguments '''
+    print("To be parsed: ")
     for req in argv[2:]:
         print(req)
+    command = argv[1]
 
     print("Parsing requirements")
     payload = get_payload(argv[2:])
 
-    response = api_call(address, port, argv[1], payload, sid)
+    response = api_call(address, port, command, payload, sid)
     data = response.json()
     pretty_print = json.dumps(data, indent=4, sort_keys=False)
 
