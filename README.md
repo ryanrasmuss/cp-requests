@@ -13,7 +13,7 @@ using: **requests by Kenneth Reitz**, **Check Point API**
 ### Notes
 
 - Can make calls in two way: ``python3 cp_api.py`` or ``./mgmt_api.sh``
-- Need to call setup before making api calls: ``./mgmt_api.sh setup [ip_address] [port#/default] [hostname] [pw]
+- Need to call setup before making api calls: ``./mgmt_api.sh setup [ip_address] [port#/default] [hostname] [pw]``
 - Example calls are in ``examples/examples_calls.txt``
 
 ### ToDo
