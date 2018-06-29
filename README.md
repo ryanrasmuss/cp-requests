@@ -1,14 +1,17 @@
 # Check Point API Scripts 
 
 by: **Ryan Rasmuss**
-using: **requests by Kenneth Reitz**, **Check Point API** 
+
+using: [requests](https://github.com/requests) by **Kenneth Reitz** amd [Check Point API](https://github.com/checkpointsw)
 
 ### Overview
 
 - Requires ``python3``
-- ``cp_api.py`` is the main dev script
+- ``cp_api.py`` is the main script
 - ``mgmt_api.sh`` is just a wrapper
 - remember that any changes need to be published via ``./mgmt_api.sh publish``
+- Remember to enable API on the Management Server via Smart Console
+- Run ``api restart`` on Gaia
 
 ### Notes
 
@@ -23,4 +26,4 @@ using: **requests by Kenneth Reitz**, **Check Point API**
 - [x] Start adding other commands
 - [x] Add new gateway w/ sic
 - [x] After posts, send message to remind to publish changes!
-- [ ] Throw in a main()
+- [x] Throw in a main()

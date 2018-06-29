@@ -9,19 +9,6 @@ delim = '\n'
 comma = ','
 
 
-''' XXX: auto-complete help '''
-def help_args(command):
-    print ("Hi, purpose is to give responses to help use this script")
-    print ("Think of VBoxManage script")
-
-    if command is "setup":
-        print ("Print setup help")
-    elif command is "add-access-rule":
-        print ("add-access-rule help")
-    else:
-        print ("Supported Commands (should be same as first script run")
-
-        
 ''' XXX: parse arguments given by user '''
 ''' XXX: current problem list requirements
    service "ssh, ssh_version_2" '''
@@ -45,18 +32,19 @@ def get_payload(requirements):
     print(return_me)
     return return_me
 
+''' Print Help '''
 
-''' XXX: DISCLAIMER! This is bad implementation, do not use in production '''
+def help():
 
-''' XXX: Make setup functions, make setup, login, add-host, add-network, logout, etc '''
-
-if len(argv) == 1:
     print("\nUsage:  python3 cp_api.py setup [mgmt_ip_addr] [port#] [username] [password]")
     print("\tpython3 cp_api.py [command] {parameters}")
-    print("\tpython3 cp_api.py logout")
-    print("\tpython3 cp_api.py publish\n")
+    print("\tpython3 cp_api.py publish")
+    print("\tpython3 cp_api.py logout\n")
 
-elif argv[1] == 'setup' and len(argv) == 6:
+
+''' Setup Function - For initial connection to Management Server '''
+
+def setup(argv):
 
     address = argv[2]
 
@@ -65,7 +53,7 @@ elif argv[1] == 'setup' and len(argv) == 6:
     else:
         port = argv[3]
 
-    username = argv[4]  
+    username = argv[4]
     password = argv[5]
 
     f = open(session_file, "w+")
@@ -78,42 +66,59 @@ elif argv[1] == 'setup' and len(argv) == 6:
     print("Done setting up")
     print ("Created session file: " + session_file)
 
-    exit
-else:
+''' Retrieve Session Information '''
+
+def get_session_data(session_file):
+
     with open(session_file) as f:
         data = f.read()
+
     print("data: " + data)
-    data = data.split('\n')
     f.close()
+    
+    return data
 
-    address = data[0]
-    port = data[1]
-    sid = data[2]
+''' Main Function '''
 
-    print("Retrieved: " + address + " " + port + " " + sid)
+def main():
 
-    print("The Command is: " + argv[1])
+    if len(argv) == 1:
+        help()
+    elif argv[1] == 'setup' and len(argv) == 6:
+        setup(argv)
+    else:
+        session_data = get_session_data(session_file)
+        
+        address, port, sid = session_data[0], session_data[1], session_data[2]
 
-    ''' normal call with arguments '''
-    print("To be parsed: ")
-    for req in argv[2:]:
-        print(req)
-    command = argv[1]
+        print("Retrieved: " + address + " " + port + " " + sid)
+        print("The command is: " + argv[1])
 
-    print("Parsing requirements")
-    payload = get_payload(argv[2:])
+        print("Going to parse the following arguments..")
 
-    response = api_call(address, port, command, payload, sid)
-    data = response.json()
-    pretty_print = json.dumps(data, indent=4, sort_keys=False)
+        for req in argv[2:]:
+            print(req)
 
-    print ("Status code returned: " + str(response.status_code))
+        command = argv[1]
 
-    with open(out_file, "w") as f:
-        f.write(pretty_print)
-    f.close()
+        ''' Actual Parsing '''
+        payload = get_payload(argv[2:])
+        ''' Making API Call '''
+        print("Making API call..")
+        response = api_call(address, port, command, payload, sid)
+        data = response.json()
+        pretty_print = json.dumps(data, indent=4, sort_keys=False)
 
-    print("Wrote response to %s" % out_file)
+        print ("Status code returned: " + str(response.status_code))
 
-    if str(response.status_code) == '200' and len(argv) > 3:
-        print("\n\tRemember to publish changes via: \"python3 cp_api.py publish\"\n")
+        with open(out_file, "w") as f:
+            f.write(pretty_print)
+        f.close()
+
+        print("Wrote response to %s" % out_file)
+
+        if str(response.status_code) == '200' and len(argv) > 3:
+            print("\n\tRemember to publish changes via: \"python3 cp_api.py publish\"\n")
+
+if __name__ == '__main__':
+    main()

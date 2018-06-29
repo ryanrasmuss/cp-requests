@@ -14,7 +14,6 @@ def api_call(ip_addr, port, command, json_payload, sid):
     print (test_data)
     print("End of dump..")
     
-    
     return r
 
 def login(user, password, addr, port):
