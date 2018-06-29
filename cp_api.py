@@ -56,6 +56,8 @@ def setup(argv):
     username = argv[4]
     password = argv[5]
 
+    print("Writing username and password: " + username + " " + password)
+
     f = open(session_file, "w+")
     sid = login(username, password, address, port)
     f.write(address + delim)
@@ -74,6 +76,7 @@ def get_session_data(session_file):
         data = f.read()
 
     print("data: " + data)
+    data = data.split(delim)
     f.close()
     
     return data
@@ -88,7 +91,7 @@ def main():
         setup(argv)
     else:
         session_data = get_session_data(session_file)
-        
+
         address, port, sid = session_data[0], session_data[1], session_data[2]
 
         print("Retrieved: " + address + " " + port + " " + sid)
