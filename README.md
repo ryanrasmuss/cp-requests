@@ -21,6 +21,7 @@ using: [requests](https://github.com/requests) by **Kenneth Reitz** amd [Check P
 
 ### ToDo
 
+- [ ] Delete session.txt when logout or login
 - [ ] Need to parse arguments better, need to be able to navigate commands like VBoxManage
 - [x] Publish
 - [x] Start adding other commands
