@@ -8,3 +8,6 @@ python3 cp_api.py show-simple-gateway name [name]
 python3 cp_api.py add-simple_gateway name [name] ipv4-address [address] color [color] firewall true one-time-password [sic]
 python3 cp_api.py add-package name API-Test access true desktop-security false qos false threat-prevention true color firebrick
 python3 set-package name API-Test
+python3 cp_api.py add-host name host1 ip-address 1.1.1.1 color blue
+python3 cp_api.py add-group name admins members admin1,admin2,admin3 color blue
+python3 cp_api.py set-group name admins members add:admin4,admin5 color red
