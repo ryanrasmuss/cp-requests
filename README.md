@@ -2,7 +2,7 @@
 
 by: **Ryan Rasmuss**
 
-using: [requests](https://github.com/requests) by **Kenneth Reitz** amd [Check Point API](https://github.com/checkpointsw)
+using: [requests](https://github.com/requests) by **Kenneth Reitz** and [Check Point API](https://github.com/checkpointsw)
 
 ### Overview
 
@@ -15,14 +15,58 @@ using: [requests](https://github.com/requests) by **Kenneth Reitz** amd [Check P
 
 ### Notes
 
-- Can make calls in two way: ``python3 cp_api.py`` or ``./mgmt_api.sh``
-- Need to call setup before making api calls: ``./mgmt_api.sh setup [ip_address] [port#/default] [hostname] [pw]``
+- Use ``python3 cp_api.py`` or ``./mgmt_api.sh``
+- Need to login before making api calls: ``./mgmt_api.sh login [ip_address] [port#/default] [hostname] [pw]``
 - Example calls are in ``examples/examples_calls.txt``
+
+
+### Special Cases
+
+If you have to build a request with lists of objects such as adding multiple hosts to a new group:
+
+```shell
+POST {{server}}/add-group
+Content-Type: application/json
+X-chkp-sid: {{session}}
+
+{
+  "name" : "New Group 4",
+  "members" : [ "New Host 1", "My Test Host 3" ]
+}
+```
+
+The script will expect the members objects to be contained in quotes(``"``) with commas as delimiters(``,``). 
+
+For example: ``python3 cp_api.py add-group name "New Group 4" members "New Host 1, My Test Host 3"``
+
+Make sure you build the host objects before running this command.
+
+
+If you have to build a request with the following structure:
+
+```shell
+POST {{server}}/set-group
+Content-Type: application/json
+Ses: 
+X-chkp-sid: {{session}}
+
+{
+  "name" : "New Group 1",
+  "members" : {
+    "add" : "New Host 1", "My Test Host 3"
+  },
+}
+```
+
+The script will expect a colon(``:``) to denote the nested key-value pairs.
+
+For example: ``python3 cp_api.py set-group name "New Group 1" members "add:My Test Host 3,New Host 1"``
+
 
 ### ToDo
 
-- [ ] Delete session.txt when logout or login
-- [ ] Need to parse arguments better, need to be able to navigate commands like VBoxManage
+- [x] Delete session contents after logouts
+- [x] Parse nested json
 - [x] Publish
 - [x] Start adding other commands
 - [x] Add new gateway w/ sic
