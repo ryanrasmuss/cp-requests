@@ -1,4 +1,5 @@
 import requests, json
+from getpass import getpass as gp
 from api_headers import api_call
 from api_headers import login
 from sys import argv
@@ -54,7 +55,7 @@ def get_payload(requirements):
 
 def help():
 
-    print("\nUsage:  python3 cp_api.py login [mgmt_ip_addr] [port#] [username] [password]")
+    print("\nUsage:  python3 cp_api.py login [mgmt_ip_addr] [port#] [username]")
     print("\tpython3 cp_api.py [command] {parameters}")
     print("\tpython3 cp_api.py publish")
     print("\tpython3 cp_api.py logout\n")
@@ -72,7 +73,8 @@ def setup(argv):
         port = argv[3]
 
     username = argv[4]  
-    password = argv[5]
+    #password = argv[5]
+    password = gp("Password: ")
 
     f = open(session_file, "w+")
     sid = login(username, password, address, port)
@@ -91,7 +93,6 @@ def get_session_data(session_file):
     with open(session_file) as f:
         data = f.read()
 
-    #print("data: " + data)
     data = data.split(delim)
     f.close()
     
@@ -103,7 +104,7 @@ def main():
 
     if len(argv) == 1:
         help()
-    elif argv[1] == 'login' and len(argv) == 6:
+    elif argv[1] == 'login' and len(argv) == 5:
         setup(argv)
     else:
         session_data = get_session_data(session_file)
