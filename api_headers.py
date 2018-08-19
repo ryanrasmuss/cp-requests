@@ -6,12 +6,11 @@ def api_call(ip_addr, port, command, json_payload, sid):
         request_headers = {'Content-Type' : 'application/json'}
     else:
         request_headers = {'Content-Type' : 'application/json', 'X-chkp-sid' : sid}
+
     r = requests.post(url,data=json.dumps(json_payload), headers=request_headers, verify=False)
 
-    debug_data = json.dumps(json_payload)
+    #debug_data = json.dumps(json_payload)
 
-    test_data = json.dumps(json_payload)
-    
     return r
 
 def login(user, password, addr, port):

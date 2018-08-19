@@ -1,5 +1,6 @@
 import requests, json
 from getpass import getpass as gp
+from helper import helper
 from api_headers import api_call
 from api_headers import login
 from sys import argv
@@ -65,29 +66,36 @@ def help():
 
 def setup(argv):
 
-    address = argv[2]
+    if len(argv) == 5 or len(argv) == 6:
 
-    if argv[3] == 'default':
-        port = '443'
+        address = argv[2]
+
+        if argv[3] == 'default':
+            port = '443'
+        else:
+            port = argv[3]
+
+        username = argv[4]  
+        if len(argv) == 6:
+            password = argv[5]
+        else:
+            password = gp("Password: ")
+
+        f = open(session_file, "w+")
+        sid = login(username, password, address, port)
+        f.write(address + delim)
+        f.write(port + delim)
+        f.write(sid)
+        f.close()
+
+        print("Done setting up")
+        print ("Created session file: " + session_file)
     else:
-        port = argv[3]
+        print("\nParameters are weird. Try again.")
+        help()
 
-    username = argv[4]  
-    #password = argv[5]
-    password = gp("Password: ")
-
-    f = open(session_file, "w+")
-    sid = login(username, password, address, port)
-    f.write(address + delim)
-    f.write(port + delim)
-    f.write(sid)
-    f.close()
-
-    print("Done setting up")
-    print ("Created session file: " + session_file)
 
 ''' Retrieve Session Information '''
-
 def get_session_data(session_file):
 
     with open(session_file) as f:
@@ -102,38 +110,61 @@ def get_session_data(session_file):
 
 def main():
 
+    specials = [ 'publish', 'discard', 'logout' ]
+    immutable = 'show'
+
     if len(argv) == 1:
         help()
-    elif argv[1] == 'login' and len(argv) == 5:
+    elif argv[1] == 'login':
         setup(argv)
     else:
-        session_data = get_session_data(session_file)
+        try:
+            session_data = get_session_data(session_file)
 
-        address, port, sid = session_data[0], session_data[1], session_data[2]
+            address, port, sid = session_data[0], session_data[1], session_data[2]
 
-        command = argv[1]
+            command = argv[1]
 
-        if 'logout' == argv[1]:
-            session_fd = open(session_file, 'w')
-            session_fd.truncate()
+            if 'logout' == argv[1]:
+                session_fd = open(session_file, 'w')
+                session_fd.truncate()
 
-        ''' Actual Parsing '''
-        payload = get_payload(argv[2:])
+            ''' Actual Parsing '''
+            payload = get_payload(argv[2:])
 
-        response = api_call(address, port, command, payload, sid)
-        data = response.json()
-        pretty_print = json.dumps(data, indent=4, sort_keys=False)
+            response = api_call(address, port, command, payload, sid)
+            data = response.json()
+            pretty_print = json.dumps(data, indent=4, sort_keys=False)
 
-        print ("Response code: " + str(response.status_code))
+            with open(out_file, "w") as f:
+                f.write(pretty_print)
+            f.close()
 
-        with open(out_file, "w") as f:
-            f.write(pretty_print)
-        f.close()
+            print("Wrote response to %s" % out_file)
 
-        print("Wrote response to %s" % out_file)
+            status = str(response.status_code)
+            print ("Status code: %s" % (status))
 
-        if str(response.status_code) == '200' and len(argv) > 3:
-            print("\n\tRemember to publish changes via: \"python3 cp_api.py publish\"\n")
+            if (status == '200') and (argv[1] not in specials) and (immutable not in argv[1]):
+                print("\n\tRemember to publish changes via: \"python3 cp_api.py publish\"\n")
+            elif status == '409':
+                print("\n\tProblem with locks. Make sure you are publishing and terminating sessions properly.\n")
+            elif status == '404':
+                print("\nI don't recognize the command: %s\n" % (argv[1]))
+                helper(argv[1])
+            elif status == '400':
+                print("\nMissing command parameters. Refer to output.txt\n")
+            elif status == '401':
+                print("\nSession Expired. You need to login.\n")
+                session_fd = open(session_file, 'w')
+                session_fd.truncate()
+            else:
+                print('Response: %s (Check output.txt for more)' % (response.status_code))
+
+        except:
+            print('\nWhat? Try logging in.')
+            help()
+
 
 if __name__ == '__main__':
     main()
