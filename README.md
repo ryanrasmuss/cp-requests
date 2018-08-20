@@ -16,7 +16,7 @@ using: [requests](https://github.com/requests) by **Kenneth Reitz** and [Check P
 ### Notes
 
 - Use ``python3 cp_api.py`` or ``./mgmt_api.sh``
-- Need to login before making api calls: ``./mgmt_api.sh login [ip_address] [port#/default] [hostname] [pw]``
+- Need to login before making api calls: ``./mgmt_api.sh login [ip_address] [port#/default] [hostname]``
 - Example calls are in ``examples/examples_calls.txt``
 
 
