@@ -1,4 +1,4 @@
-# Check Point API Scripts 
+# Check Point API & Requests
 
 by: **Ryan Rasmuss**
 
@@ -65,6 +65,8 @@ For example: ``python3 cp_api.py set-group name "New Group 1" members "add:My Te
 
 ### ToDo
 
+- [ ] Install script
+- [ ] Workflow documentation
 - [x] Delete session contents after logouts
 - [x] Parse nested json
 - [x] Publish
