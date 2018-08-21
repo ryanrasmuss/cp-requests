@@ -3,6 +3,7 @@ from getpass import getpass as gp
 from helper import helper
 from api_headers import api_call
 from api_headers import login
+from os import stat
 from sys import argv
 
 session_file = 'session.txt'
@@ -81,8 +82,22 @@ def setup(argv):
         else:
             password = gp("Password: ")
 
-        f = open(session_file, "w+")
+        #f = open(session_file, "w+")
+
         sid = login(username, password, address, port)
+        if None == sid:
+            return None
+        
+        filesize = stat(session_file).st_size
+
+        if filesize != 0:
+            print("There seems to be another session already esatablished.")
+            with open(session_file, "r") as f:
+                print (f.read())
+            print("Please terminate this session before logging in. Try logout.")
+            return None
+
+        f = open(session_file, "w+")
         f.write(address + delim)
         f.write(port + delim)
         f.write(sid)

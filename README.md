@@ -4,23 +4,29 @@ by: **Ryan Rasmuss**
 
 using: [requests](https://github.com/requests) by **Kenneth Reitz** and [Check Point API](https://github.com/checkpointsw)
 
-### Overview
+A simple tool to make API calls to a Check Point R80 Management Server.
+
+## Overview
 
 - Requires ``python3``
 - ``cp_api.py`` is the main script
-- ``mgmt_api.sh`` is just a wrapper
-- remember that any changes need to be published via ``./mgmt_api.sh publish``
+- ``mgmt_api.sh`` is just a wrapper 
+- You need to make a login request before making api calls: ``./mgmt_api.sh login [ip_address] [port#/default] [hostname]``
+- Any changes you make need to be published (saved) via ``./mgmt_api.sh publish``
 - Remember to enable API on the Management Server via Smart Console
-- Run ``api restart`` on Gaia
-
-### Notes
-
-- Use ``python3 cp_api.py`` or ``./mgmt_api.sh``
-- Need to login before making api calls: ``./mgmt_api.sh login [ip_address] [port#/default] [hostname]``
+- Run ``api restart`` on Gaia if you have diffulties connecting to the Management Server
 - Example calls are in ``examples/examples_calls.txt``
 
+Refer to the [Check Point API](https://sc1.checkpoint.com/documents/latest/APIs/index.html#introduction~v1.2%20) and the [R80 Admin Guide](http://dl3.checkpoint.com/paid/29/29ba43867b6b7fc08559fadbcf2226fc/CP_R80.10_SecurityManagement_AdminGuide.pdf?HashKey=1534827596_41e9be562f6a20ffdca38a53c306430d&xtn=.pdf) page 25.
 
-### Special Cases
+## Check Point API Workflow
+
+1. ``login`` to create an active session
+2. Do work (add/show/change/remove objects)
+3. ``publish`` or ``discard``
+4. ``logout`` to safely terminate your session
+
+## Special Cases
 
 If you have to build a request with lists of objects such as adding multiple hosts to a new group:
 
@@ -42,7 +48,7 @@ For example: ``python3 cp_api.py add-group name "New Group 4" members "New Host 
 Make sure you build the host objects before running this command.
 
 
-If you have to build a request with the following structure:
+If you have to build a request with an embedded key-value pair like adding new hosts to an existing group:
 
 ```shell
 POST {{server}}/set-group
@@ -63,10 +69,11 @@ The script will expect a colon(``:``) to denote the nested key-value pairs.
 For example: ``python3 cp_api.py set-group name "New Group 1" members "add:My Test Host 3,New Host 1"``
 
 
-### ToDo
+## ToDo
 
 - [ ] Install script
-- [ ] Workflow documentation
+- [ ] Safely handle dangling sessions
+- [x] Workflow documentation
 - [x] Delete session contents after logouts
 - [x] Parse nested json
 - [x] Publish
