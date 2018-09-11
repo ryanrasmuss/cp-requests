@@ -88,6 +88,8 @@ def setup(argv):
         if None == sid:
             return None
         
+        f = open(session_file, "w+")
+        
         filesize = stat(session_file).st_size
 
         if filesize != 0:
@@ -97,7 +99,6 @@ def setup(argv):
             print("Please terminate this session before logging in. Try logout.")
             return None
 
-        f = open(session_file, "w+")
         f.write(address + delim)
         f.write(port + delim)
         f.write(sid)
