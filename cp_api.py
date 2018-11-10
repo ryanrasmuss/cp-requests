@@ -57,10 +57,10 @@ def get_payload(requirements):
 
 def help():
 
-    print("\nUsage:  python3 cp_api.py login [mgmt_ip_addr] [port#] [username]")
-    print("\tpython3 cp_api.py [command] {parameters}")
-    print("\tpython3 cp_api.py publish")
-    print("\tpython3 cp_api.py logout\n")
+    print("\nUsage:  mgmt_api.sh login [mgmt_ip_addr] [port#] [username]")
+    print("\tmgmt_api.sh [command] {parameters}")
+    print("\tmgmt_api.sh publish")
+    print("\tmgmt_api.sh logout\n")
 
 
 ''' Setup Function - For initial connection to Management Server '''

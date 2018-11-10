@@ -1,8 +1,15 @@
+# cp-requests
+# -----------
+# To build: docker build -t cp-requests .
+# To run: docker run -ti cp-requests:latest
+
 FROM ubuntu:latest
 
 LABEL cp-requests latest
 
 VOLUME [ "/mnt" ]
+
+WORKDIR cp-requests/
 
 RUN apt-get update && apt-get install -y \
     python3 \
@@ -13,7 +20,5 @@ RUN apt-get update && apt-get install -y \
     apt-get autoremove --purge -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-WORKDIR cp-requests/
 
 CMD ["/bin/bash"]
