@@ -6,8 +6,8 @@ from api_headers import login
 from os import stat
 from sys import argv
 
-session_file = 'session.txt'
-out_file = 'output.txt'
+session_file = 'session/session.txt'
+out_file = 'session/output.txt'
 colon = ':'
 delim = '\n'
 comma = ','

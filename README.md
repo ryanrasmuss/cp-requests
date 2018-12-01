@@ -9,6 +9,7 @@ A simple tool to make API calls to a Check Point R80 Management Server.
 ## Overview
 
 - Requires ``python3``
+- Will throw error if there is no ``session.txt`` files in your working directory.
 - ``cp_api.py`` is the main script
 - ``mgmt_api.sh`` is just a wrapper 
 - You need to make a login request before making api calls: ``./mgmt_api.sh login [ip_address] [port#/default] [hostname]``

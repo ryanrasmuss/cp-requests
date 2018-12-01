@@ -1,15 +1,18 @@
 # cp-requests
 # -----------
+#
+# Disk Requirements: ~ 500 mb
+#
 # To build: docker build -t cp-requests .
-# To run: docker run -ti cp-requests:latest
+#
+# To run: docker run -v $(``pwd``)/:/cp-requests/session/ cp-requests:latest [cmd] [parameters]
+# ^^^ If you want to copy session.txt (stateful)
 
 FROM ubuntu:latest
 
 LABEL cp-requests latest
 
 VOLUME [ "/mnt" ]
-
-WORKDIR cp-requests/
 
 RUN apt-get update && apt-get install -y \
     python3 \
@@ -21,4 +24,8 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-CMD ["/bin/bash"]
+WORKDIR /cp-requests/
+RUN mkdir session/
+
+#CMD ["/bin/bash"]
+ENTRYPOINT [ "./mgmt_api.sh" ]
