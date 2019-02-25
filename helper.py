@@ -4,7 +4,6 @@ red = "\033[31m"
 end_color = "\033[0m"
 required = '+'
 
-list_all = 'list-all'
 hosts = [ 'add-host', 'show-host', 'set-host', 'delete-host', 'show-hosts' ]
 network = [ 'add-network', 'show-network', 'set-network', 'delete-network', 'show-networks' ]
 group = [ 'add-group', 'show-group', 'set-group', 'delete-group', 'show-groups' ]
@@ -80,6 +79,7 @@ def helper(arg):
     printme = detect(arg)
     if None is not detect(arg):
         print("%s commands: " % (subjects[printme][0]))
+        print("[command]\t{parameter(s)}")
         for item in subjects[printme][1]:
             sys.stdout.write(item + '\t')
             print_params(params[item])

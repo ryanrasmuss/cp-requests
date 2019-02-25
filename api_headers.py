@@ -2,8 +2,6 @@ import requests, json
 
 def api_call(ip_addr, port, command, json_payload, sid):
 
-    print(json_payload)
-
     url = 'https://' + ip_addr + ':' + port + '/web_api/' + command
     if sid == '':
         request_headers = {'Content-Type' : 'application/json'}
@@ -12,8 +10,8 @@ def api_call(ip_addr, port, command, json_payload, sid):
 
     r = requests.post(url,data=json.dumps(json_payload), headers=request_headers, verify=False)
 
-    debug_data = json.dumps(json_payload)
-    print(debug_data)
+    #debug_data = json.dumps(json_payload)
+    #print(debug_data)
 
     return r
 

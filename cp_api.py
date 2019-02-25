@@ -1,13 +1,15 @@
 import requests, json
 from getpass import getpass as gp
-from helper import helper
+from helper import helper, subjects
 from api_headers import api_call
 from api_headers import login
 from os import stat
 from sys import argv
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-session_file = 'session/session.txt'
-out_file = 'session/output.txt'
+session_file = 'session.txt'
+out_file = 'output.txt'
 colon = ':'
 delim = '\n'
 comma = ','
@@ -50,7 +52,6 @@ def get_payload(requirements):
         else:
             return_me[requirements[i]] = requirements[i+1]
 
-    print(return_me)
     return return_me
 
 ''' Print Help '''
@@ -60,9 +61,19 @@ def help():
     print("\nUsage:  mgmt_api.sh login [mgmt_ip_addr] [port#] [username]")
     print("\tmgmt_api.sh [command] {parameters}")
     print("\tmgmt_api.sh publish")
-    print("\tmgmt_api.sh logout\n")
+    print("\tmgmt_api.sh logout")
+    print("\tmgmt_api.sh help (for more details)\n")
 
+def detailed_help():
 
+    help()
+
+    print("Supported commands:")
+
+    for key,val in subjects.items():
+        print("\t" + val[0])
+
+    print("Run \"./mgmt_api.sh [command]\" for a list of commands and parameters")
 ''' Setup Function - For initial connection to Management Server '''
 
 def setup(argv):
@@ -126,13 +137,15 @@ def get_session_data(session_file):
 
 def main():
 
-    specials = [ 'publish', 'discard', 'logout' ]
+    specials = [ 'publish', 'discard', 'logout', 'help' ]
     immutable = 'show'
 
     if len(argv) == 1:
         help()
     elif argv[1] == 'login':
         setup(argv)
+    elif argv[1] == 'help':
+        detailed_help()
     else:
         try:
             session_data = get_session_data(session_file)
@@ -169,7 +182,7 @@ def main():
                 print("\nI don't recognize the command: %s\n" % (argv[1]))
                 helper(argv[1])
             elif status == '400':
-                print("\nMissing command parameters. Refer to output.txt\n")
+                print("\nError or missing command parameters. Refer to output.txt\n")
             elif status == '401':
                 print("\nSession Expired. You need to login.\n")
                 session_fd = open(session_file, 'w')
