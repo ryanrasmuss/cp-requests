@@ -8,7 +8,7 @@
 # To run: docker run -v $(``pwd``)/:/cp-requests/session/ cp-requests:latest [cmd] [parameters]
 # ^^^ If you want to copy session.txt (stateful)
 
-FROM ubuntu:latest
+FROM ubuntu:kinetic-20220830
 
 LABEL cp-requests latest
 
